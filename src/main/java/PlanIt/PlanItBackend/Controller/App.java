@@ -1,6 +1,11 @@
-package de.dhbw.planit;
+package PlanIt.PlanItBackend.Controller;
 
 import java.sql.Date;
+
+import PlanIt.PlanItBackend.Appointment;
+import PlanIt.PlanItBackend.Category;
+import PlanIt.PlanItBackend.Color;
+import PlanIt.PlanItBackend.FilePersistence;
 
 public final class App {
     private App() {

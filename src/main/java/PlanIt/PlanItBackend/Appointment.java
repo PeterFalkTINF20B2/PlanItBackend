@@ -1,4 +1,4 @@
-package de.dhbw.planit;
+package PlanIt.PlanItBackend;
 
 import java.util.Date;
 import java.io.Serializable;
@@ -34,7 +34,7 @@ public class Appointment implements Serializable {
             this.app_ID = app_ID;
       }
 
-      String getDescription() {
+      public String getDescription() {
             return description;
       }
 

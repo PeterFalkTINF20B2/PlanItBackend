@@ -1,4 +1,4 @@
-package ;
+package PlanIt.PlanItBackend;
 
 import java.sql.Date;
 

@@ -1,4 +1,4 @@
-package de.dhbw.planit;
+package PlanIt.PlanItBackend;
 
 public interface UIView {
       public void showSchedule();

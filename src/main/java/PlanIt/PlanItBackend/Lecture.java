@@ -1,4 +1,4 @@
-package de.dhbw.planit;
+package PlanIt.PlanItBackend;
 
 import java.util.Date;
 
