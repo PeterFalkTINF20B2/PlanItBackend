@@ -1,4 +1,4 @@
-package PlanIt.PlanItBackend;
+package main;
 
 import java.io.*;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package PlanIt.PlanItBackend;
+package main;
 
 public interface Persistence {
       public void saveAppointment(Appointment appointment);
