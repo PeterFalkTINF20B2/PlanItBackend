@@ -2,137 +2,160 @@ package main;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
-public class FilePersistence implements Persistence{
-    String path;
-    File appointmentFile;
-    Appointment appointment;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
-    public FilePersistence() {
-        setPath(System.getProperty("user.home") + File.separator + "Documents" + File.separator + 
-				"Appointments by PlanIt");
-        appointmentFile = new File(path + File.separator + "appointments.txt");
-    }
+public class FilePersistence implements Persistence {
+	String path;
+	File appointmentFile;
+	Appointment appointment;
 
-//    @Override
-    public void saveAppointment(Appointment appointment) {
-        Appointment[] aArr;
-        if (appointmentFile.exists()) {
-            ArrayList<Appointment> appointments = new ArrayList<Appointment>();
-			Appointment[] loadedStudents = loadAppointments();
-		
-			for(int i = 0; i < loadedStudents.length; i++) {
-				appointments.add(loadedStudents[i]);
-			}
-			appointments.add(appointment);
-		
-			aArr = new Appointment[appointments.size()];
-			aArr = appointments.toArray(aArr);
-		}
-		else {
-			aArr = new Appointment[1];
-			aArr[0] = appointment;
-		}
+	public FilePersistence() {
+		setPath(System.getProperty("user.home") + File.separator + "Documents" + File.separator
+				+ "Appointments by PlanIt");
+		appointmentFile = new File(path + File.separator + "appointments.txt");
+	}
 
-        try {
-			FileOutputStream f = new FileOutputStream(appointmentFile);
-			ObjectOutputStream o = new ObjectOutputStream(f);
+	public String convertAppointmentToJSON(Appointment appntmnt) throws JsonProcessingException {
+		// Create ObjectMapper object
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
-			// Write objects to file
-			o.writeObject(aArr);
-			o.close();
-			f.close();
+		// TODO: If file exists, load appointments into List
+		// Add new appointment to list
+		List<Appointment> appointments = new ArrayList<Appointment>();
+		appointments.add(appntmnt);
 
-		} catch (FileNotFoundException e) {
-			System.out.println("File not found");
-		} catch (IOException e) {
-			System.out.println("Error initializing stream");
-        }
-    }
+		// Serialize object to JSON
+		String json = mapper.writeValueAsString(appointments);
+		return json;
+	}
 
-//    @Override
-    public Appointment[] loadAppointments() {
-        Appointment[] lApp = null;
-		
+	public void saveAppointment(String json) {
+		BufferedWriter br;
 		try {
-		    //Read Student array from file.
-		    FileInputStream fis = new FileInputStream(appointmentFile);
-		    ObjectInputStream ois = new ObjectInputStream(fis);
-		    lApp = (Appointment[]) ois.readObject();
-		    
-		    ois.close();
-		}
-		catch (FileNotFoundException e) {
-		    e.printStackTrace();
-		}
-		catch (IOException e) {
-		    e.printStackTrace();
-		}
-		catch (ClassNotFoundException e) {
-		    e.printStackTrace();
+			br = new BufferedWriter(new FileWriter(appointmentFile));
+			br.write(json);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
-		return lApp;
-    }
+//        Appointment[] aArr;
+//        if (appointmentFile.exists()) {
+//            ArrayList<Appointment> appointments = new ArrayList<Appointment>();
+//			Appointment[] loadedStudents = loadAppointments();
+//		
+//			for(int i = 0; i < loadedStudents.length; i++) {
+//				appointments.add(loadedStudents[i]);
+//			}
+//			appointments.add(appointment);
+//		
+//			aArr = new Appointment[appointments.size()];
+//			aArr = appointments.toArray(aArr);
+//		}
+//		else {
+//			aArr = new Appointment[1];
+//			aArr[0] = appointment;
+//		}
+
+//        try {
+//			FileOutputStream f = new FileOutputStream(appointmentFile);
+//			ObjectOutputStream o = new ObjectOutputStream(f);
+//
+//			// Write objects to file
+//			o.writeObject(aArr);
+//			o.close();
+//			f.close();
+//
+//		} catch (FileNotFoundException e) {
+//			System.out.println("File not found");
+//		} catch (IOException e) {
+//			System.out.println("Error initializing stream");
+//        }
+	}
 
 //    @Override
-    public void deleteAppointment(int app_ID) {
-        if (appointmentFile.exists()) {
+	public Appointment[] loadAppointments() {
+		Appointment[] lApp = null;
+
+		try {
+			// Read Student array from file.
+			FileInputStream fis = new FileInputStream(appointmentFile);
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			lApp = (Appointment[]) ois.readObject();
+
+			ois.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		return lApp;
+	}
+
+//    @Override
+	public void deleteAppointment(int app_ID) {
+		if (appointmentFile.exists()) {
 			Appointment[] oldAppArr = loadAppointments();
 			ArrayList<Appointment> updatedAppList = new ArrayList<Appointment>();
-			
+
 			for (int i = 0; i < oldAppArr.length; i++) {
 				if (oldAppArr[i].getApp_ID() != app_ID) {
 					updatedAppList.add(oldAppArr[i]);
 				}
 			}
-						
+
 			Appointment[] newStudentsArr = new Appointment[updatedAppList.size()];
 			newStudentsArr = updatedAppList.toArray(newStudentsArr);
-			
+
 			try {
-			    FileOutputStream fos = new FileOutputStream(appointmentFile);
-			    ObjectOutputStream oos = new ObjectOutputStream(fos);
-			    oos.writeObject(newStudentsArr);
-			    oos.close();
-			}
-			catch (FileNotFoundException e) {
-			    e.printStackTrace();
-			}
-			catch (IOException e) {
-			    e.printStackTrace();
+				FileOutputStream fos = new FileOutputStream(appointmentFile);
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+				oos.writeObject(newStudentsArr);
+				oos.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
-    }
+	}
 
 //    @Override
-    public void updateAppointment(Appointment appointment) {
-        // TODO Auto-generated method stub
-        
-    }
-    // ---------------- getter and setter section ---------------
+	public void updateAppointment(Appointment appointment) {
+		// TODO Auto-generated method stub
 
-    String getPath() {
-        return path;
-    }
+	}
+	// ---------------- getter and setter section ---------------
 
-    void setPath(String path) {
-        this.path = path;
-    }
+	String getPath() {
+		return path;
+	}
 
-    File getAppointmentFile() {
-        return appointmentFile;
-    }
+	void setPath(String path) {
+		this.path = path;
+	}
 
-    void setStorage(File appointmentFile) {
-        this.appointmentFile = appointmentFile;
-    }
+	File getAppointmentFile() {
+		return appointmentFile;
+	}
 
-    Appointment getAppointment() {
-        return appointment;
-    }
+	void setStorage(File appointmentFile) {
+		this.appointmentFile = appointmentFile;
+	}
 
-    void setAppointment(Appointment appointment) {
-        this.appointment = appointment;
-    }
+	Appointment getAppointment() {
+		return appointment;
+	}
+
+	void setAppointment(Appointment appointment) {
+		this.appointment = appointment;
+	}
 }

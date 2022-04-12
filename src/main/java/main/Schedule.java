@@ -19,6 +19,10 @@ public class Schedule {
 		return new ExamBuilder().module(module).workloadInHours(workload).start(start).end(end).place(place).build();
 	}
 
+	public Lecture createLecture(String module, Date start, Date end, String place, boolean weekly) {
+		return new LectureBuilder().module(module).start(start).end(end).place(place).weekly(weekly).build();
+	}
+
 	void refactorAppointment(int app_ID, String description, Category category, int priority, Color color,
 			Date startDate, Date endDate) {
 		//
