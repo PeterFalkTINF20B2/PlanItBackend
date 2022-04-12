@@ -19,18 +19,16 @@ public class FilePersistence implements Persistence {
 		appointmentFile = new File(path + File.separator + "appointments.txt");
 	}
 
-	public String convertAppointmentToJSON(Appointment appntmnt) throws JsonProcessingException {
+	public String convertAppointmentListToJSON(List<Appointment> appntmnts) throws JsonProcessingException {
 		// Create ObjectMapper object
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
 		// TODO: If file exists, load appointments into List
 		// Add new appointment to list
-		List<Appointment> appointments = new ArrayList<Appointment>();
-		appointments.add(appntmnt);
 
 		// Serialize object to JSON
-		String json = mapper.writeValueAsString(appointments);
+		String json = mapper.writeValueAsString(appntmnts);
 		return json;
 	}
 
