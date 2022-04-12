@@ -1,51 +1,53 @@
-package PlanIt.PlanItBackend;
+package main;
 
 import java.sql.Date;
 
+import builder.*;
+
 public class Schedule {
-    Persistence persitence;
-    Appointment[] appointments;
-    UIView view;
+	Persistence persitence;
+	Appointment[] appointments;
+	UIView view;
 
-    void createAppointement(int app_ID, String description, Category category, int priority,
-                            Color color, Date startDate, Date endDate) {
-        new Appointment(app_ID, description, category, priority, color, startDate, endDate);
-    }
+	public Appointment createAppointement(String title, Category category, Date start, Date end, String description,
+			String place) {
+		return new AppointmentBuilder().title(title).category(category).start(start).end(end).description(description)
+				.place(place).build();
+	}
 
-    void refactorAppointment(int app_ID, String description, Category category, int priority,
-                             Color color, Date startDate, Date endDate) {
-         //
-    }
+	public Exam createExam(String module, int workload, Date start, Date end, String place) {
+		return new ExamBuilder().module(module).workloadInHours(workload).start(start).end(end).place(place).build();
+	}
 
-    Appointment[] loadAppointments() {
-        //
-        return null;
-    }
+	void refactorAppointment(int app_ID, String description, Category category, int priority, Color color,
+			Date startDate, Date endDate) {
+		//
+	}
 
-    void createExam (int app_ID, String description, Category category, int priority,
-                     Color color, Date startDate, Date endDate, String module, int studyWorkload) {
-        new Exam(app_ID, description, category, priority, color, startDate, endDate, module, studyWorkload);
-    }
+	Appointment[] loadAppointments() {
+		//
+		return null;
+	}
 
-    // ---------------- getter and setter section ---------------
+	// ---------------- getter and setter section ---------------
 
-    Persistence getPersistence() {
-        return persitence;
-    }
+	Persistence getPersistence() {
+		return persitence;
+	}
 
-    void setPersistence(Persistence persistence) {
-        this.persitence = persistence;
-    }
+	void setPersistence(Persistence persistence) {
+		this.persitence = persistence;
+	}
 
-    UIView getView() {
-        return view;
-    }
+	UIView getView() {
+		return view;
+	}
 
-    void setView(UIView view) {
-        this.view = view;
-    }
+	void setView(UIView view) {
+		this.view = view;
+	}
 
-    Appointment[] getAppointments() {
-        return appointments;
-    }
+	Appointment[] getAppointments() {
+		return appointments;
+	}
 }
