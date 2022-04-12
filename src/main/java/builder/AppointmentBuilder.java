@@ -1,11 +1,13 @@
 package builder;
 
 import java.util.Date;
+import java.util.UUID;
 
 import main.Appointment;
 import main.Category;
 
 public class AppointmentBuilder {
+	private String id; // generated
 	private String title; // required
 	private Category category; // required
 	private Date start; // required
@@ -13,6 +15,10 @@ public class AppointmentBuilder {
 	private String description; // optional
 	private String place; // optional
 
+	public AppointmentBuilder() {
+		id = UUID.randomUUID().toString();
+	}
+	
 	public AppointmentBuilder title(String title) {
 		this.title = title;
 		return this;
@@ -44,6 +50,6 @@ public class AppointmentBuilder {
 	}
 
 	public Appointment build() {
-		return new Appointment(title, category, start, end, description, place);
+		return new Appointment(id, title, category, start, end, description, place);
 	}
 }

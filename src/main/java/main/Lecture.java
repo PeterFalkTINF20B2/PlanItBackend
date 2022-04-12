@@ -3,13 +3,15 @@ package main;
 import java.util.Date;
 
 public class Lecture {
+	private final String id;
 	private final String module;
 	private final Date start;
 	private final Date end;
 	private final String place;
 	private final boolean weekly;
 	
-	public Lecture(String module, Date start, Date end, String place, boolean weekly) {
+	public Lecture(String id, String module, Date start, Date end, String place, boolean weekly) {
+		this.id = id;
 		this.module = module;
 		this.start = start;
 		this.end = end;

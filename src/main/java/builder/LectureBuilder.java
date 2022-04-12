@@ -1,16 +1,21 @@
 package builder;
 
 import java.util.Date;
+import java.util.UUID;
 
 import main.Lecture;
 
 public class LectureBuilder {
+	private String id;
 	private String module;
 	private Date start;
 	private Date end;
 	private String place;
 	private boolean weekly;
 
+	public LectureBuilder() {
+		this.id = UUID.randomUUID().toString();
+	}
 	public LectureBuilder module(String module) {
 		this.module = module;
 		return this;
@@ -37,6 +42,6 @@ public class LectureBuilder {
 	}
 
 	public Lecture build() {
-		return new Lecture(module, start, end, place, weekly);
+		return new Lecture(id, module, start, end, place, weekly);
 	}
 }

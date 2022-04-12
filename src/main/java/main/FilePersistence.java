@@ -32,16 +32,8 @@ public class FilePersistence implements Persistence {
 		return json;
 	}
 
+	// TODO: Art der Speicherung festlegen
 	public void saveAppointment(String json) {
-		BufferedWriter br;
-		try {
-			br = new BufferedWriter(new FileWriter(appointmentFile));
-			br.write(json);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 //        Appointment[] aArr;
 //        if (appointmentFile.exists()) {
 //            ArrayList<Appointment> appointments = new ArrayList<Appointment>();
@@ -76,57 +68,58 @@ public class FilePersistence implements Persistence {
 //        }
 	}
 
-//    @Override
+	// TODO: Je nach Speicherung demenstprechend laden
 	public Appointment[] loadAppointments() {
-		Appointment[] lApp = null;
-
-		try {
-			// Read Student array from file.
-			FileInputStream fis = new FileInputStream(appointmentFile);
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			lApp = (Appointment[]) ois.readObject();
-
-			ois.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		return lApp;
+//		Appointment[] lApp = null;
+//
+//		try {
+//			// Read Student array from file.
+//			FileInputStream fis = new FileInputStream(appointmentFile);
+//			ObjectInputStream ois = new ObjectInputStream(fis);
+//			lApp = (Appointment[]) ois.readObject();
+//
+//			ois.close();
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} catch (ClassNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//
+//		return lApp;
+		return null;
 	}
 
-//    @Override
+	// TODO: Jeder Termin hat eine einzigartige ID, mit der ein Termin eindeutig identifiziert werden kann
 	public void deleteAppointment(int app_ID) {
-		if (appointmentFile.exists()) {
-			Appointment[] oldAppArr = loadAppointments();
-			ArrayList<Appointment> updatedAppList = new ArrayList<Appointment>();
-
-			for (int i = 0; i < oldAppArr.length; i++) {
-				if (oldAppArr[i].getApp_ID() != app_ID) {
-					updatedAppList.add(oldAppArr[i]);
-				}
-			}
-
-			Appointment[] newStudentsArr = new Appointment[updatedAppList.size()];
-			newStudentsArr = updatedAppList.toArray(newStudentsArr);
-
-			try {
-				FileOutputStream fos = new FileOutputStream(appointmentFile);
-				ObjectOutputStream oos = new ObjectOutputStream(fos);
-				oos.writeObject(newStudentsArr);
-				oos.close();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+//		if (appointmentFile.exists()) {
+//			Appointment[] oldAppArr = loadAppointments();
+//			ArrayList<Appointment> updatedAppList = new ArrayList<Appointment>();
+//
+//			for (int i = 0; i < oldAppArr.length; i++) {
+//				if (oldAppArr[i].getApp_ID() != app_ID) {
+//					updatedAppList.add(oldAppArr[i]);
+//				}
+//			}
+//
+//			Appointment[] newStudentsArr = new Appointment[updatedAppList.size()];
+//			newStudentsArr = updatedAppList.toArray(newStudentsArr);
+//
+//			try {
+//				FileOutputStream fos = new FileOutputStream(appointmentFile);
+//				ObjectOutputStream oos = new ObjectOutputStream(fos);
+//				oos.writeObject(newStudentsArr);
+//				oos.close();
+//			} catch (FileNotFoundException e) {
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
 	}
 
-//    @Override
+	// TODO: ähnlich wie bei delete kann mithilfe der ID der zu ändernde Termin gefunden werden
 	public void updateAppointment(Appointment appointment) {
 		// TODO Auto-generated method stub
 

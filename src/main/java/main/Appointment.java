@@ -3,6 +3,7 @@ package main;
 import java.util.Date;
 
 public class Appointment {
+	private final String id; // generated
 	private final String title; // required
 	private final Category category; // required
 	private final Date start; // required
@@ -10,7 +11,8 @@ public class Appointment {
 	private final String description; // optional
 	private final String place; // optional
 
-	public Appointment(String title, Category category, Date start, Date end, String description, String place) {
+	public Appointment(String id, String title, Category category, Date start, Date end, String description, String place) {
+		this.id = id;
 		this.title = title;
 		this.category = category;
 		this.start = start;
@@ -25,6 +27,9 @@ public class Appointment {
 				+ this.description + ", " + this.place;
 	}
 
+	public String getId() {
+		return id;
+	}
 	public String getTitle() {
 		return title;
 	}
