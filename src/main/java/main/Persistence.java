@@ -1,8 +1,10 @@
 package main;
 
+import java.io.IOException;
+import java.util.List;
+
 public interface Persistence {
-      public void saveAppointment(String json);
-      public Appointment[] loadAppointments();
-      public void deleteAppointment(int app_ID);
+      public List<Appointment> loadAppointments() throws IOException;
+      public void deleteAppointment(String id) throws IOException;
       public void updateAppointment(Appointment appointment);
 }

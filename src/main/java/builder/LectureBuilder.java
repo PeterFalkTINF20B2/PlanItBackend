@@ -16,6 +16,7 @@ public class LectureBuilder {
 	public LectureBuilder() {
 		this.id = UUID.randomUUID().toString();
 	}
+	
 	public LectureBuilder module(String module) {
 		this.module = module;
 		return this;

@@ -1,10 +1,15 @@
 package main;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
@@ -17,111 +22,132 @@ public class FilePersistence implements Persistence {
 		setPath(System.getProperty("user.home") + File.separator + "Documents" + File.separator
 				+ "Appointments by PlanIt");
 		appointmentFile = new File(path + File.separator + "appointments.txt");
+		createDirectoryIfNotExists(path);
+		createAppointmentFileIfNotExists();
 	}
 
-	public String convertAppointmentListToJSON(List<Appointment> appntmnts) throws JsonProcessingException {
+	/*
+	 * Directory "Appointments by PlanIt" will be created in "Documents"-directory
+	 * if not already existing
+	 */
+	private void createDirectoryIfNotExists(String path) {
+		File dir = new File(path);
+		if (!dir.exists())
+			dir.mkdirs();
+	}
+
+	/*
+	 * File "appointments.txt" will be created in "Appointments by PlanIt"-directory
+	 * if not already existing
+	 */
+	private void createAppointmentFileIfNotExists() {
+		try {
+			appointmentFile.createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/*
+	 * An ArrayList of appointments is converted to JSON-format and returned as
+	 * String
+	 */
+	public String convertAppointmentListToJSON(ArrayList<Appointment> appntmnts) throws JsonProcessingException {
 		// Create ObjectMapper object
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
-
-		// TODO: If file exists, load appointments into List
-		// Add new appointment to list
-
-		// Serialize object to JSON
+		// Parse to JSON-String
 		String json = mapper.writeValueAsString(appntmnts);
 		return json;
 	}
 
-	// TODO: Art der Speicherung festlegen
-	public void saveAppointment(String json) {
-//        Appointment[] aArr;
-//        if (appointmentFile.exists()) {
-//            ArrayList<Appointment> appointments = new ArrayList<Appointment>();
-//			Appointment[] loadedStudents = loadAppointments();
-//		
-//			for(int i = 0; i < loadedStudents.length; i++) {
-//				appointments.add(loadedStudents[i]);
-//			}
-//			appointments.add(appointment);
-//		
-//			aArr = new Appointment[appointments.size()];
-//			aArr = appointments.toArray(aArr);
-//		}
-//		else {
-//			aArr = new Appointment[1];
-//			aArr[0] = appointment;
-//		}
-
-//        try {
-//			FileOutputStream f = new FileOutputStream(appointmentFile);
-//			ObjectOutputStream o = new ObjectOutputStream(f);
-//
-//			// Write objects to file
-//			o.writeObject(aArr);
-//			o.close();
-//			f.close();
-//
-//		} catch (FileNotFoundException e) {
-//			System.out.println("File not found");
-//		} catch (IOException e) {
-//			System.out.println("Error initializing stream");
-//        }
+	/*
+	 * A new appointment is added to the existing appointments and saved locally in
+	 * "appointments.txt"
+	 */
+	public void addAppointment(Appointment appntmnt) throws IOException {
+		// List of existing appointments is loaded into list
+		List<Appointment> list = loadAppointments();
+		
+		// List is converted to ArrayList for easier expansion
+		ArrayList<Appointment> aList = new ArrayList<Appointment>();
+		aList.addAll(list);
+		// New appointment is added to list
+		aList.add(appntmnt);
+		// ArrayList is converted to JSON and returned as String
+		String json = convertAppointmentListToJSON(aList);
+		// JSON-String is written into "appointments.txt"-file
+		BufferedWriter writer = new BufferedWriter(new FileWriter(appointmentFile));
+		writer.write(json);
+		writer.close();
 	}
 
-	// TODO: Je nach Speicherung demenstprechend laden
-	public Appointment[] loadAppointments() {
-//		Appointment[] lApp = null;
-//
-//		try {
-//			// Read Student array from file.
-//			FileInputStream fis = new FileInputStream(appointmentFile);
-//			ObjectInputStream ois = new ObjectInputStream(fis);
-//			lApp = (Appointment[]) ois.readObject();
-//
-//			ois.close();
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		} catch (ClassNotFoundException e) {
-//			e.printStackTrace();
-//		}
-//
-//		return lApp;
-		return null;
+	/*
+	 * Appointments are loaded from "appointments.txt"-file and returned as a List
+	 */
+	public List<Appointment> loadAppointments() throws IOException {
+		// Content of "appointments.txt" is written into String
+		String content = readAppointemntFile();
+
+		List<Appointment> appointmentList = new ArrayList<Appointment>();
+		if (appointmentFile.length() != 0) {
+			// Create ObjectMapper for demarshalling
+			ObjectMapper mapper = new ObjectMapper();
+
+			try {
+				// Loaded JSON-String is converted to an ArrayList of Appointment objects
+				appointmentList = Arrays.asList(mapper.readValue(content, Appointment[].class));
+			} catch (JsonParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return appointmentList;
 	}
 
-	// TODO: Jeder Termin hat eine einzigartige ID, mit der ein Termin eindeutig identifiziert werden kann
-	public void deleteAppointment(int app_ID) {
-//		if (appointmentFile.exists()) {
-//			Appointment[] oldAppArr = loadAppointments();
-//			ArrayList<Appointment> updatedAppList = new ArrayList<Appointment>();
-//
-//			for (int i = 0; i < oldAppArr.length; i++) {
-//				if (oldAppArr[i].getApp_ID() != app_ID) {
-//					updatedAppList.add(oldAppArr[i]);
-//				}
-//			}
-//
-//			Appointment[] newStudentsArr = new Appointment[updatedAppList.size()];
-//			newStudentsArr = updatedAppList.toArray(newStudentsArr);
-//
-//			try {
-//				FileOutputStream fos = new FileOutputStream(appointmentFile);
-//				ObjectOutputStream oos = new ObjectOutputStream(fos);
-//				oos.writeObject(newStudentsArr);
-//				oos.close();
-//			} catch (FileNotFoundException e) {
-//				e.printStackTrace();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
+	/*
+	 * Read "appointments.txt"-file into String
+	 */
+	private String readAppointemntFile() throws IOException {
+		return Files.readString(Paths.get(path + File.separator + "appointments.txt"));
 	}
 
-	// TODO: ähnlich wie bei delete kann mithilfe der ID der zu ändernde Termin gefunden werden
+	/*
+	 * Appointment with specific ID is being deleted
+	 * TODO: when having two appointments in storage, both are being deleted
+	 */
+	public void deleteAppointment(String id) throws IOException {
+		// List of existing appointments is loaded into list
+		List<Appointment> list = loadAppointments();
+		// List is converted to ArrayList for easier expansion
+		ArrayList<Appointment> aList = new ArrayList<Appointment>();
+
+		// Find matching ID and remove appointment from ArrayList
+		for (int i = 0; i < aList.size(); i++) {
+			if (aList.get(i).getId().equals(id)) {
+				aList.remove(i);
+			}
+		}
+
+		// Convert ArrayList to JSON-Format
+		String newContent = convertAppointmentListToJSON(aList);
+		// Write JSON-String to "appointments.txt"-file
+		BufferedWriter writer = new BufferedWriter(new FileWriter(appointmentFile));
+		writer.write(newContent);
+		writer.close();
+	}
+
+	// TODO: ähnlich wie bei delete kann mithilfe der ID der zu ändernde Termin
+	// gefunden werden
 	public void updateAppointment(Appointment appointment) {
-		// TODO Auto-generated method stub
 
 	}
 	// ---------------- getter and setter section ---------------
