@@ -2,6 +2,8 @@ package main;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Appointment {
 	private String id; // generated
 	private String title; // required
