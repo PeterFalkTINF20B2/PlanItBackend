@@ -19,6 +19,11 @@ public class AppointmentBuilder {
 		id = UUID.randomUUID().toString();
 	}
 	
+	public AppointmentBuilder id(String id) {
+		this.id = id;
+		return this;
+	}
+	
 	public AppointmentBuilder title(String title) {
 		this.title = title;
 		return this;

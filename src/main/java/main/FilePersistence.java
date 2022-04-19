@@ -15,15 +15,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class FilePersistence implements Persistence {
-	String path;
-	File appointmentFile;
-	Appointment appointment;
+	private String directoryPath;
+	private String appointmentFilePath;
+	private File appointmentFile;
 
 	public FilePersistence() {
-		setPath(System.getProperty("user.home") + File.separator + "Documents" + File.separator
+		// Setting the PlanIt-path to folder "Appointments by PlanIt" in user's
+		// documents
+		setDirectoryPath(System.getProperty("user.home") + File.separator + "Documents" + File.separator
 				+ "Appointments by PlanIt");
-		appointmentFile = new File(path + File.separator + "appointments.txt");
-		createDirectoryIfNotExists(path);
+		// Setting the appointment.txt file address
+		setAppointmentFilePath(directoryPath + File.separator + "appointments.txt");
+		// Declare an appointment file
+		setAppointmentFile(new File(appointmentFilePath));
+		// Call method to create a directory in given path
+		createDirectoryIfNotExists(directoryPath);
+		// Call method to create "appointments.txt"-file
 		createAppointmentFileIfNotExists();
 	}
 
@@ -72,10 +79,10 @@ public class FilePersistence implements Persistence {
 		List<Appointment> list = loadAppointments();
 
 		// List is converted to ArrayList for easier expansion
-		ArrayList<Appointment> aList = new ArrayList<Appointment>();
-		aList.addAll(list);
+		ArrayList<Appointment> aList = new ArrayList<Appointment>(list);
 		// New appointment is added to list
 		aList.add(appntmnt);
+
 		// ArrayList is converted to JSON and returned as String
 		String json = convertAppointmentListToJSON(aList);
 		// JSON-String is written into "appointments.txt"-file
@@ -103,15 +110,10 @@ public class FilePersistence implements Persistence {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
-			return appointmentList;
 		}
-		return null;
+		return appointmentList;
 	}
 
-	
-	
-	
 	public List<Appointment> loadAppointmentsInTimespan(String start, String end) throws IOException {
 		// Content of "appointments.txt" is written into String
 		String content = readAppointemntFile();
@@ -132,9 +134,11 @@ public class FilePersistence implements Persistence {
 //			filtered stream from list to list
 			Date startDate = new Date(start);
 			Date endDate = new Date(end);
-			appointmentList = appointmentList.stream().filter(appointment -> (startDate.before(appointment.getStart()))).toList();
-			appointmentList = appointmentList.stream().filter(appointment -> (endDate.after(appointment.getStart()))).toList();
-			
+			appointmentList = appointmentList.stream().filter(appointment -> (startDate.before(appointment.getStart())))
+					.toList();
+			appointmentList = appointmentList.stream().filter(appointment -> (endDate.after(appointment.getStart())))
+					.toList();
+
 			return appointmentList;
 		}
 		return null;
@@ -144,7 +148,7 @@ public class FilePersistence implements Persistence {
 	 * Read "appointments.txt"-file into String
 	 */
 	private String readAppointemntFile() throws IOException {
-		return Files.readString(Paths.get(path + File.separator + "appointments.txt"));
+		return Files.readString(Paths.get(appointmentFilePath));
 	}
 
 	/*
@@ -179,27 +183,27 @@ public class FilePersistence implements Persistence {
 	}
 	// ---------------- getter and setter section ---------------
 
-	String getPath() {
-		return path;
+	public String getDirectoryPath() {
+		return directoryPath;
 	}
 
-	void setPath(String path) {
-		this.path = path;
+	public void setDirectoryPath(String directoryPath) {
+		this.directoryPath = directoryPath;
 	}
 
-	File getAppointmentFile() {
+	public String getAppointmentFilePath() {
+		return appointmentFilePath;
+	}
+
+	public void setAppointmentFilePath(String appointmentFilePath) {
+		this.appointmentFilePath = appointmentFilePath;
+	}
+
+	public File getAppointmentFile() {
 		return appointmentFile;
 	}
 
-	void setStorage(File appointmentFile) {
+	public void setAppointmentFile(File appointmentFile) {
 		this.appointmentFile = appointmentFile;
-	}
-
-	Appointment getAppointment() {
-		return appointment;
-	}
-
-	void setAppointment(Appointment appointment) {
-		this.appointment = appointment;
 	}
 }
