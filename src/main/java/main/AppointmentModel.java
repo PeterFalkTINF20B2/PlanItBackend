@@ -2,7 +2,7 @@ package main;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class AppointmentJSON {
+public class AppointmentModel {
 	@JsonIgnore
 	private String id; // generated
 	private String title; // required
