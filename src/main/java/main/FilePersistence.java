@@ -128,7 +128,7 @@ public class FilePersistence implements Persistence {
 		// List of existing appointments is loaded into list
 		List<Appointment> list = loadAppointments();
 		// List is converted to ArrayList for easier expansion
-		ArrayList<Appointment> aList = new ArrayList<Appointment>();
+		ArrayList<Appointment> aList = new ArrayList<Appointment>(list);
 
 		// Find matching ID and remove appointment from ArrayList
 		for (int i = 0; i < aList.size(); i++) {
