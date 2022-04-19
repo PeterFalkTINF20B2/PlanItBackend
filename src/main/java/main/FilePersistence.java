@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -69,7 +70,7 @@ public class FilePersistence implements Persistence {
 	public void addAppointment(Appointment appntmnt) throws IOException {
 		// List of existing appointments is loaded into list
 		List<Appointment> list = loadAppointments();
-		
+
 		// List is converted to ArrayList for easier expansion
 		ArrayList<Appointment> aList = new ArrayList<Appointment>();
 		aList.addAll(list);
@@ -98,19 +99,45 @@ public class FilePersistence implements Persistence {
 			try {
 				// Loaded JSON-String is converted to an ArrayList of Appointment objects
 				appointmentList = Arrays.asList(mapper.readValue(content, Appointment[].class));
-			} catch (JsonParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JsonMappingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
 
-		return appointmentList;
+			return appointmentList;
+		}
+		return null;
+	}
+
+	
+	
+	
+	public List<Appointment> loadAppointmentsInTimespan(String start, String end) throws IOException {
+		// Content of "appointments.txt" is written into String
+		String content = readAppointemntFile();
+
+		List<Appointment> appointmentList = new ArrayList<Appointment>();
+		if (appointmentFile.length() != 0) {
+			// Create ObjectMapper for demarshalling
+			ObjectMapper mapper = new ObjectMapper();
+
+			try {
+				// Loaded JSON-String is converted to an ArrayList of Appointment objects
+				appointmentList = Arrays.asList(mapper.readValue(content, Appointment[].class));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+//			until here, same as loadAppointments()
+//			filtered stream from list to list
+			Date startDate = new Date(start);
+			Date endDate = new Date(end);
+			appointmentList = appointmentList.stream().filter(appointment -> (startDate.before(appointment.getStart()))).toList();
+			appointmentList = appointmentList.stream().filter(appointment -> (endDate.after(appointment.getStart()))).toList();
+			
+			return appointmentList;
+		}
+		return null;
 	}
 
 	/*
@@ -121,8 +148,8 @@ public class FilePersistence implements Persistence {
 	}
 
 	/*
-	 * Appointment with specific ID is being deleted
-	 * TODO: when having two appointments in storage, both are being deleted
+	 * Appointment with specific ID is being deleted TODO: when having two
+	 * appointments in storage, both are being deleted
 	 */
 	public void deleteAppointment(String id) throws IOException {
 		// List of existing appointments is loaded into list
