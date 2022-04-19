@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -135,9 +136,9 @@ public class FilePersistence implements Persistence {
 			Date startDate = new Date(start);
 			Date endDate = new Date(end);
 			appointmentList = appointmentList.stream().filter(appointment -> (startDate.before(appointment.getStart())))
-					.toList();
+					.collect(Collectors.toList());
 			appointmentList = appointmentList.stream().filter(appointment -> (endDate.after(appointment.getStart())))
-					.toList();
+					.collect(Collectors.toList());
 
 			return appointmentList;
 		}
