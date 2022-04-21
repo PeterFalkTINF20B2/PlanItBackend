@@ -153,8 +153,7 @@ public class FilePersistence implements Persistence {
 	}
 
 	/*
-	 * Appointment with specific ID is being deleted TODO: when having two
-	 * appointments in storage, both are being deleted
+	 * Appointment with specific ID is being deleted
 	 */
 	public void deleteAppointment(String id) throws IOException {
 		// List of existing appointments is loaded into list
@@ -177,10 +176,30 @@ public class FilePersistence implements Persistence {
 		writer.close();
 	}
 
-	// TODO: ähnlich wie bei delete kann mithilfe der ID der zu ändernde Termin
-	// gefunden werden
-	public void updateAppointment(Appointment appointment) {
-
+	/*
+	 * Takes given appointment, searches Id,
+	 * then replaces old appointment with same Id
+	 */
+	public void updateAppointment(Appointment appointment) throws IOException{
+		// List of existing appointments is loaded into list
+		List<Appointment> list = loadAppointments();
+		// List is converted to ArrayList for easier expansion
+		ArrayList<Appointment> aList = new ArrayList<Appointment>(list);
+		
+		// Find matching ID and remove appointment from ArrayList
+		for (int i = 0; i < aList.size(); i++) {
+			if (aList.get(i).getId().equals(appointment.getId())) {
+				aList.remove(i);
+				aList.add(i, appointment);
+			}
+		}
+		
+		// Convert ArrayList to JSON-Format
+		String newContent = convertAppointmentListToJSON(aList);
+		// Write JSON-String to "appointments.txt"-file
+		BufferedWriter writer = new BufferedWriter(new FileWriter(appointmentFile));
+		writer.write(newContent);
+		writer.close();
 	}
 	// ---------------- getter and setter section ---------------
 
