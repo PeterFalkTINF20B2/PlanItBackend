@@ -1,17 +1,19 @@
 package main;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
@@ -133,11 +135,11 @@ public class FilePersistence implements Persistence {
 			}
 //			until here, same as loadAppointments()
 //			filtered stream from list to list
-			Date startDate = new Date(start);
-			Date endDate = new Date(end);
-			appointmentList = appointmentList.stream().filter(appointment -> (startDate.before(appointment.getStart())))
+			LocalDate startDate = LocalDate.parse(start);
+			LocalDate endDate = LocalDate.parse(end);
+			appointmentList = appointmentList.stream().filter(appointment -> (startDate.isBefore(appointment.getStart())))
 					.collect(Collectors.toList());
-			appointmentList = appointmentList.stream().filter(appointment -> (endDate.after(appointment.getStart())))
+			appointmentList = appointmentList.stream().filter(appointment -> (endDate.isAfter(appointment.getStart())))
 					.collect(Collectors.toList());
 
 			return appointmentList;
