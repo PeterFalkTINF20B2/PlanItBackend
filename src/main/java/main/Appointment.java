@@ -1,7 +1,6 @@
 package main;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Appointment {
 	private String id; // generated
