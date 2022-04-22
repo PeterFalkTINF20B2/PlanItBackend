@@ -1,6 +1,7 @@
 package main;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import builder.*;
 
@@ -9,7 +10,7 @@ public class Schedule {
 	Appointment[] appointments;
 	UIView view;
 
-	public Appointment createAppointement(String title, Category category, Date start, Date end, String description,
+	public Appointment createAppointement(String title, Category category, LocalDate start, LocalDate end, String description,
 			String place) {
 		return new AppointmentBuilder().title(title).category(category).start(start).end(end).description(description)
 				.place(place).build();
