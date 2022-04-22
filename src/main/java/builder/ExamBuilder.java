@@ -1,6 +1,6 @@
 package builder;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 import main.Exam;
@@ -9,8 +9,8 @@ public class ExamBuilder {
 	private String id;
 	private String module;
 	private int workloadInHours;
-	private Date start;
-	private Date end;
+	private LocalDate start;
+	private LocalDate end;
 	private String place;
 
 	public ExamBuilder() {
@@ -27,12 +27,12 @@ public class ExamBuilder {
 		return this;
 	}
 
-	public ExamBuilder start(Date start) {
+	public ExamBuilder start(LocalDate start) {
 		this.start = start;
 		return this;
 	}
 
-	public ExamBuilder end(Date end) {
+	public ExamBuilder end(LocalDate end) {
 		this.end = end;
 		return this;
 	}

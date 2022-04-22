@@ -1,21 +1,21 @@
 package main;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Exam {
 	private final String id;
 	private final String module;
 	private final int workloadInHours;
-	private final Date start;
-	private final Date end;
+	private final LocalDate start;
+	private final LocalDate end;
 	private final String place;
 
-	public Exam(String id, String module, int workloadInHours, Date start, Date end, String place) {
+	public Exam(String id, String module, int workloadInHours, LocalDate start2, LocalDate end2, String place) {
 		this.id = id;
 		this.module = module;
 		this.workloadInHours = workloadInHours;
-		this.start = start;
-		this.end = end;
+		this.start = start2;
+		this.end = end2;
 		this.place = place;
 	}
 
@@ -33,11 +33,11 @@ public class Exam {
 		return workloadInHours;
 	}
 
-	public Date getStart() {
+	public LocalDate getStart() {
 		return start;
 	}
 
-	public Date getEnd() {
+	public LocalDate getEnd() {
 		return end;
 	}
 
