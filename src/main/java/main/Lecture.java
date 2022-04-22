@@ -1,20 +1,20 @@
 package main;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Lecture {
 	private final String id;
 	private final String module;
-	private final Date start;
-	private final Date end;
+	private final LocalDate start;
+	private final LocalDate end;
 	private final String place;
 	private final boolean weekly;
 	
-	public Lecture(String id, String module, Date start, Date end, String place, boolean weekly) {
+	public Lecture(String id, String module, LocalDate start2, LocalDate end2, String place, boolean weekly) {
 		this.id = id;
 		this.module = module;
-		this.start = start;
-		this.end = end;
+		this.start = start2;
+		this.end = end2;
 		this.place = place;
 		this.weekly = weekly;
 	}
@@ -28,11 +28,11 @@ public class Lecture {
 		return module;
 	}
 
-	public Date getStart() {
+	public LocalDate getStart() {
 		return start;
 	}
 
-	public Date getEnd() {
+	public LocalDate getEnd() {
 		return end;
 	}
 
