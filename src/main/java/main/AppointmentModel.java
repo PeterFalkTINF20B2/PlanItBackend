@@ -16,6 +16,17 @@ public class AppointmentModel {
 //	private String place; // optional
 	
 	
+	public AppointmentModel(String id, String title, String startdate, String enddate) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.startdate = startdate;
+//		this.starttime = starttime;
+		this.enddate = enddate;
+//		this.endtime = endtime;
+//		this.flexible = flexible;
+	}
+	
 	public String getId() {
 		return id;
 	}

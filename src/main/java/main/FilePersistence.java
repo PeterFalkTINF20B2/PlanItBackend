@@ -145,6 +145,44 @@ public class FilePersistence implements Persistence {
 		}
 		return null;
 	}
+	
+	/*
+	 * same as loadAppointmentsInTimespan, but returns AppointmentModel
+	 */
+	public List<AppointmentModel> loadAppointmentsAsAppointmentModelsInTimespan(String start, String end) throws IOException {
+		// Content of "appointments.txt" is written into String
+		String content = readAppointemntFile();
+		
+		List<Appointment> appointmentList = new ArrayList<Appointment>();
+		if (appointmentFile.length() != 0) {
+			// Create ObjectMapper for demarshalling
+			ObjectMapper mapper = new ObjectMapper();
+			
+			try {
+				// Loaded JSON-String is converted to an ArrayList of Appointment objects
+				appointmentList = Arrays.asList(mapper.readValue(content, Appointment[].class));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+//			until here, same as loadAppointments()
+//			filtered stream from list to list
+			LocalDate startDate = LocalDate.parse(start);
+			LocalDate endDate = LocalDate.parse(end);
+			appointmentList = appointmentList.stream().filter(appointment -> (startDate.isBefore(appointment.getStart())))
+					.collect(Collectors.toList());
+			appointmentList = appointmentList.stream().filter(appointment -> (endDate.isAfter(appointment.getStart())))
+					.collect(Collectors.toList());
+//			converts Appointments to AppointmentModels
+			List<AppointmentModel> appointmentModelList = new ArrayList<>();
+			for (Appointment appointment : appointmentList) {
+				appointmentModelList.add(appointment.toAppointmentModel());
+			}
+			
+			return appointmentModelList;
+		}
+		return null;
+	}
 
 	/*
 	 * Read "appointments.txt"-file into String
