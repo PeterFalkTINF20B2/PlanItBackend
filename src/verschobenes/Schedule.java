@@ -1,6 +1,7 @@
 package main;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import builder.*;
 
@@ -9,17 +10,17 @@ public class Schedule {
 	Appointment[] appointments;
 	UIView view;
 
-	public Appointment createAppointement(String title, Category category, Date start, Date end, String description,
+	public Appointment createAppointement(String title, Category category, LocalDate start, LocalDate end, String description,
 			String place) {
 		return new AppointmentBuilder().title(title).category(category).start(start).end(end).description(description)
 				.place(place).build();
 	}
 
-	public Exam createExam(String module, int workload, Date start, Date end, String place) {
+	public Exam createExam(String module, int workload, LocalDate start, LocalDate end, String place) {
 		return new ExamBuilder().module(module).workloadInHours(workload).start(start).end(end).place(place).build();
 	}
 
-	public Lecture createLecture(String module, Date start, Date end, String place, boolean weekly) {
+	public Lecture createLecture(String module, LocalDate start, LocalDate end, String place, boolean weekly) {
 		return new LectureBuilder().module(module).start(start).end(end).place(place).weekly(weekly).build();
 	}
 

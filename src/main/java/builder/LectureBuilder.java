@@ -1,6 +1,6 @@
 package builder;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 import main.Lecture;
@@ -8,8 +8,8 @@ import main.Lecture;
 public class LectureBuilder {
 	private String id;
 	private String module;
-	private Date start;
-	private Date end;
+	private LocalDate start;
+	private LocalDate end;
 	private String place;
 	private boolean weekly;
 
@@ -22,12 +22,12 @@ public class LectureBuilder {
 		return this;
 	}
 
-	public LectureBuilder start(Date start) {
+	public LectureBuilder start(LocalDate start) {
 		this.start = start;
 		return this;
 	}
 
-	public LectureBuilder end(Date end) {
+	public LectureBuilder end(LocalDate end) {
 		this.end = end;
 		return this;
 	}

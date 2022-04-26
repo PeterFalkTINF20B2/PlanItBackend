@@ -1,19 +1,17 @@
 package main;
 
-import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.time.LocalDate;
 
 public class Appointment {
 	private String id; // generated
 	private String title; // required
 	private Category category; // required
-	private Date start; // required
-	private Date end; // required
+	private LocalDate start; // required
+	private LocalDate end; // required
 	private String description; // optional
 	private String place; // optional
 
-	public Appointment(String id, String title, Category category, Date start, Date end, String description,
+	public Appointment(String id, String title, Category category, LocalDate start, LocalDate end, String description,
 			String place) {
 		this.id = id;
 		this.title = title;
@@ -34,6 +32,12 @@ public class Appointment {
 				+ this.description + ", " + this.place;
 	}
 
+	public AppointmentModel toAppointmentModel() {
+		return new AppointmentModel(id, title, start.toString(), end.toString(), this.category.toString());
+	}
+	
+	// ---------------- getter and setter section ---------------
+	
 	public String getId() {
 		return id;
 	}
@@ -46,11 +50,11 @@ public class Appointment {
 		return category;
 	}
 
-	public Date getStart() {
+	public LocalDate getStart() {
 		return start;
 	}
 
-	public Date getEnd() {
+	public LocalDate getEnd() {
 		return end;
 	}
 

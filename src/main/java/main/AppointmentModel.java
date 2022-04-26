@@ -6,7 +6,7 @@ public class AppointmentModel {
 	@JsonIgnore
 	private String id; // generated
 	private String title; // required
-	// private String category; // required
+	private String category; // required
 	private String startdate; // required
 	private String starttime;//required
 	private String enddate; // required
@@ -15,6 +15,30 @@ public class AppointmentModel {
 //	private String description; // optional
 //	private String place; // optional
 	
+	
+	public AppointmentModel(String id, String title, String startdate, String enddate, String category) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.startdate = startdate;
+//		this.starttime = starttime;
+		this.enddate = enddate;
+//		this.endtime = endtime;
+//		this.flexible = flexible;
+		this.category = category;
+	}
+	
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public AppointmentModel() {
+		super();
+	}
 	
 	public String getId() {
 		return id;

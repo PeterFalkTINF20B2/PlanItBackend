@@ -1,6 +1,6 @@
 package builder;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 import main.Appointment;
@@ -10,8 +10,8 @@ public class AppointmentBuilder {
 	private String id; // generated
 	private String title; // required
 	private Category category; // required
-	private Date start; // required
-	private Date end; // required
+	private LocalDate start; // required
+	private LocalDate end; // required
 	private String description; // optional
 	private String place; // optional
 
@@ -34,12 +34,12 @@ public class AppointmentBuilder {
 		return this;
 	}
 
-	public AppointmentBuilder start(Date start) {
+	public AppointmentBuilder start(LocalDate start) {
 		this.start = start;
 		return this;
 	}
 
-	public AppointmentBuilder end(Date end) {
+	public AppointmentBuilder end(LocalDate end) {
 		this.end = end;
 		return this;
 	}
