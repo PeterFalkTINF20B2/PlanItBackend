@@ -34,9 +34,9 @@ public class FilePersistence implements Persistence {
 		this.appointmentFilePath = directoryPath + appointmentFilePath;
 		
 		// Declare an appointment file
-		setAppointmentFile(new File(appointmentFilePath));
+		setAppointmentFile(new File(this.appointmentFilePath));
 		// Call method to create a directory in given path
-		createDirectoryIfNotExists(directoryPath);
+		createDirectoryIfNotExists(this.directoryPath);
 		// Call method to create "appointments.txt"-file
 		createAppointmentFileIfNotExists();
 	}
