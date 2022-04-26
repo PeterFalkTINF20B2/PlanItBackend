@@ -41,6 +41,9 @@ public class FilePersistence implements Persistence {
 		createAppointmentFileIfNotExists();
 	}
 
+	public FilePersistence() {
+	}
+
 	/*
 	 * Directory "Appointments by PlanIt" will be created in "Documents"-directory
 	 * if not already existing
@@ -248,28 +251,25 @@ public class FilePersistence implements Persistence {
 		writer.write(newContent);
 		writer.close();
 	}
-	// ---------------- getter and setter section ---------------
-
+	
+	/*
+	 * Getter- and Setter-Section
+	 */
 	public String getDirectoryPath() {
 		return directoryPath;
 	}
-
 	public void setDirectoryPath(String directoryPath) {
 		this.directoryPath = directoryPath;
 	}
-
 	public String getAppointmentFilePath() {
 		return appointmentFilePath;
 	}
-
 	public void setAppointmentFilePath(String appointmentFilePath) {
 		this.appointmentFilePath = appointmentFilePath;
 	}
-
 	public File getAppointmentFile() {
 		return appointmentFile;
 	}
-
 	public void setAppointmentFile(File appointmentFile) {
 		this.appointmentFile = appointmentFile;
 	}
