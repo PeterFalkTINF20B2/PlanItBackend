@@ -33,7 +33,7 @@ public class Appointment {
 	}
 
 	public AppointmentModel toAppointmentModel() {
-		return new AppointmentModel(id, title, start.toString(), end.toString());
+		return new AppointmentModel(id, title, start.toString(), end.toString(), this.category.toString());
 	}
 	
 	// ---------------- getter and setter section ---------------
