@@ -21,13 +21,18 @@ public class FilePersistence implements Persistence {
 	private String appointmentFilePath;
 	private File appointmentFile;
 
-	public FilePersistence() {
+	public FilePersistence(String directoryPath, String appointmentFilePath) {
 		// Setting the PlanIt-path to folder "Appointments by PlanIt" in user's
 		// documents
-		setDirectoryPath(System.getProperty("user.home") + File.separator + "Documents" + File.separator
-				+ "Appointments by PlanIt");
-		// Setting the appointment.txt file address
-		setAppointmentFilePath(directoryPath + File.separator + "appointments.txt");
+		
+//		setDirectoryPath(System.getProperty("user.home") + File.separator + "Documents" + File.separator
+//				+ "Appointments by PlanIt");
+//		// Setting the appointment.txt file address
+//		setAppointmentFilePath(directoryPath + File.separator + "appointments.txt");
+		
+		this.directoryPath = directoryPath;
+		this.appointmentFilePath = directoryPath + appointmentFilePath;
+		
 		// Declare an appointment file
 		setAppointmentFile(new File(appointmentFilePath));
 		// Call method to create a directory in given path
