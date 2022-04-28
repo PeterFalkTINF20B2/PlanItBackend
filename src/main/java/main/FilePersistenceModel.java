@@ -16,12 +16,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-public class PersistenceAppointmentModel {
+public class FilePersistenceModel {
 	private String directoryPath;
 	private String appointmentFilePath;
 	private File appointmentFile;
 	
-	public PersistenceAppointmentModel(String directoryPath, String appointmentFilePath) {
+	public FilePersistenceModel(String directoryPath, String appointmentFilePath) {
 		// Setting the PlanIt-path to folder "Appointments by PlanIt" in user's
 		// documents
 		
@@ -230,5 +230,28 @@ public class PersistenceAppointmentModel {
 	}
 	public void setAppointmentFile(File appointmentFile) {
 		this.appointmentFile = appointmentFile;
+	}
+	
+	/*
+	 * Mainmethod for testing
+	 */
+	public static void main(String[] args) {
+		FilePersistenceModel fp = new FilePersistenceModel(System.getProperty("user.home") + File.separator + "Documents" + File.separator + "Appointments by PlanIt",
+				 File.separator + "appointmentModel_Test.json");
+		List<AppointmentModel> listout = new ArrayList<>();
+		try {
+			fp.add(new AppointmentModel("12", "Friseur", "2022-03-14", "14-00-00", "2022-03-14","15-00-00", ""));
+			fp.add(new AppointmentModel("85", "Geburtstag", "2022-03-31","06-00-00", "2022-03-31","14-00-00", ""));
+			fp.add(new AppointmentModel("123", "Zahnarzt", "2022-03-01","12-00-00","2022-03-31","14-00-00", ""));
+			fp.add(new AppointmentModel("1020", "Abendessen", "2022-03-25","21-00-00", "2022-03-26","01-00-00", ""));
+			fp.add(new AppointmentModel("45605", "Silvesterfeier", "2022-12-31","23-00-00", "2023-01-01","01-00-00", ""));
+			fp.add(new AppointmentModel("9874", "Urlaub", "2022-03-28","06-00-00", "2022-04-15","23-59-59", ""));
+			listout = fp.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		for (AppointmentModel appointmentModel : listout) {
+			System.out.println(appointmentModel.toString());
+		}
 	}
 }

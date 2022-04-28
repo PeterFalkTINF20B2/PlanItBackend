@@ -16,16 +16,21 @@ public class AppointmentModel {
 //	private String place; // optional
 	
 	
-	public AppointmentModel(String id, String title, String startdate, String enddate, String category) {
+	public AppointmentModel(String id, String title, String startdate, String starttime, String enddate, String endtime, String category) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.startdate = startdate;
-//		this.starttime = starttime;
+		this.starttime = starttime;
 		this.enddate = enddate;
-//		this.endtime = endtime;
+		this.endtime = endtime;
 //		this.flexible = flexible;
 		this.category = category;
+	}
+	
+	@Override
+	public String toString() {
+		return "Appointment: " + this.title + ", " + this.category + ", " + this.startdate + ", " + this.starttime + ", " + this.enddate + ", " + this.endtime;
 	}
 	
 	public String getCategory() {
