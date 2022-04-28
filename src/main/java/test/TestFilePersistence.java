@@ -20,28 +20,23 @@ import main.Appointment;
 import main.AppointmentModel;
 import main.Category;
 import main.FilePersistence;
+import main.PersistenceAppointmentModel;
 
 public class TestFilePersistence {
-	FilePersistence fp;
+	PersistenceAppointmentModel fp;
 	
 	@Before
-	public void createTestFile() {
-		fp = new FilePersistence(System.getProperty("user.home") + File.separator + "Documents" + File.separator + "Appointments by PlanIt",
-				 File.separator + "appointments_Test.json");
+	public void createTestFile() throws IOException {
+		fp = new PersistenceAppointmentModel(System.getProperty("user.home") + File.separator + "Documents" + File.separator + "Appointments by PlanIt",
+				 File.separator + "appointmentModel_Test.json");
 		
 		List<AppointmentModel> appointmentList = new ArrayList<>();
-		AppointmentModel ap1 = new AppointmentModel("12", "Friseur", "2022-03-14T14-00-00", "2022-03-14T15-00-00", "");
-		AppointmentModel ap2 = new AppointmentModel("85", "Geburtstag", "2022-03-31T06-00-00", "2022-03-31T14-00-00", "");
-		AppointmentModel ap3 = new AppointmentModel("123", "Zahnarzt", "2022-03-01T12-00-00","2022-03-31T14-00-00", "");
-		AppointmentModel ap4 = new AppointmentModel("1020", "Abendessen", "2022-03-25T21-00-00", "2022-03-26T01-00-00", "");
-		AppointmentModel ap5 = new AppointmentModel("45605", "Silvesterfeier", "2022-12-31T23-00-00", "2023-01-01T01-00-00", "");
-		AppointmentModel ap6 = new AppointmentModel("9874", "Urlaub", "2022-03-28T06-00-00", "2022-04-15T23-59-59", "");
-		appointmentList.add(ap1);
-		appointmentList.add(ap2);
-		appointmentList.add(ap3);
-		appointmentList.add(ap4);
-		appointmentList.add(ap5);
-		appointmentList.add(ap6);
+		fp.add(new AppointmentModel("12", "Friseur", "2022-03-14T14-00-00", "2022-03-14T15-00-00", ""));
+		fp.add(new AppointmentModel("85", "Geburtstag", "2022-03-31T06-00-00", "2022-03-31T14-00-00", ""));
+		fp.add(new AppointmentModel("123", "Zahnarzt", "2022-03-01T12-00-00","2022-03-31T14-00-00", ""));
+		fp.add(new AppointmentModel("1020", "Abendessen", "2022-03-25T21-00-00", "2022-03-26T01-00-00", ""));
+		fp.add(new AppointmentModel("45605", "Silvesterfeier", "2022-12-31T23-00-00", "2023-01-01T01-00-00", ""));
+		fp.add(new AppointmentModel("9874", "Urlaub", "2022-03-28T06-00-00", "2022-04-15T23-59-59", ""));
 	}
 	
 	@After

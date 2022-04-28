@@ -6,9 +6,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -86,17 +88,17 @@ public class PersistenceAppointmentModel {
 	 * A new appointment is added to the existing appointments and saved locally in
 	 * "appointments.txt"
 	 */
-	public void addAppointmentModel(Appointment appntmnt) throws IOException {
+	public void add(AppointmentModel apMod) throws IOException {
 		// List of existing appointments is loaded into list
-		List<Appointment> list = loadAppointments();
+		List<AppointmentModel> list = load();
 
 		// List is converted to ArrayList for easier expansion
-		ArrayList<Appointment> aList = new ArrayList<Appointment>(list);
+		ArrayList<AppointmentModel> aList = new ArrayList<AppointmentModel>(list);
 		// New appointment is added to list
-		aList.add(appntmnt);
+		aList.add(apMod);
 
 		// ArrayList is converted to JSON and returned as String
-		String json = convertAppointmentListToJSON(aList);
+		String json = convertAppointmentModelListToJSON(aList);
 		// JSON-String is written into "appointments.txt"-file
 		BufferedWriter writer = new BufferedWriter(new FileWriter(appointmentFile));
 		writer.write(json);
@@ -106,18 +108,18 @@ public class PersistenceAppointmentModel {
 	/*
 	 * Appointments are loaded from "appointments.txt"-file and returned as a List
 	 */
-	public List<Appointment> loadAppointments() throws IOException {
+	public List<AppointmentModel> load() throws IOException {
 		// Content of "appointments.txt" is written into String
 		String content = readAppointemntFile();
 
-		List<Appointment> appointmentList = new ArrayList<Appointment>();
+		List<AppointmentModel> appointmentList = new ArrayList<AppointmentModel>();
 		if (appointmentFile.length() != 0) {
 			// Create ObjectMapper for demarshalling
 			ObjectMapper mapper = new ObjectMapper();
 
 			try {
 				// Loaded JSON-String is converted to an ArrayList of Appointment objects
-				appointmentList = Arrays.asList(mapper.readValue(content, Appointment[].class));
+				appointmentList = Arrays.asList(mapper.readValue(content, AppointmentModel[].class));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -129,40 +131,32 @@ public class PersistenceAppointmentModel {
 	/*
 	 * same as loadAppointmentsInTimespan, but returns AppointmentModel
 	 */
-	public List<AppointmentModel> loadAppointmentsAsAppointmentModelsInTimespan(String start, String end) throws IOException {
+	public List<AppointmentModel> loadInTimespan(String start, String end) throws IOException {
 		// Content of "appointments.txt" is written into String
 		String content = readAppointemntFile();
 		
-		List<AppointmentModel> appointmentList = new ArrayList<AppointmentModel>();
+		List<AppointmentModel> appointmentModelList = new ArrayList<AppointmentModel>();
 		if (appointmentFile.length() != 0) {
 			// Create ObjectMapper for demarshalling
 			ObjectMapper mapper = new ObjectMapper();
 			
 			try {
 				// Loaded JSON-String is converted to an ArrayList of Appointment objects
-				appointmentList = Arrays.asList(mapper.readValue(content, AppointmentModel[].class));
+				appointmentModelList = Arrays.asList(mapper.readValue(content, AppointmentModel[].class));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			
 			}
-			
-			return appointmentList;
 //			until here, same as loadAppointments()
 //			filtered stream from list to list
 			LocalDate startDate = LocalDate.parse(start);
 			LocalDate endDate = LocalDate.parse(end);
-			appointmentList = appointmentList.stream().filter(appointment -> (startDate.isBefore(appointment.getStart())))
+			appointmentModelList = appointmentModelList.stream().filter(appointmentModel -> (startDate.isBefore(LocalDate.parse(appointmentModel.getStart()))))
 					.collect(Collectors.toList());
-			appointmentList = appointmentList.stream().filter(appointment -> (endDate.isAfter(appointment.getStart())))
+			appointmentModelList = appointmentModelList.stream().filter(appointmentModel -> (endDate.isAfter(LocalDate.parse(appointmentModel.getEnd()))))
 					.collect(Collectors.toList());
-//			converts Appointments to AppointmentModels
-			List<AppointmentModel> appointmentModelList = new ArrayList<>();
-			for (Appointment appointment : appointmentList) {
-				appointmentModelList.add(appointment.toAppointmentModel());
-			}
-			
-//			return appointmentModelList;
+			return appointmentModelList;
 		}
 		return null;
 	}
@@ -179,9 +173,9 @@ public class PersistenceAppointmentModel {
 	 */
 	public void deleteAppointmentModel(String id) throws IOException {
 		// List of existing appointments is loaded into list
-		List<Appointment> list = loadAppointments();
+		List<AppointmentModel> list = load();
 		// List is converted to ArrayList for easier expansion
-		ArrayList<Appointment> aList = new ArrayList<Appointment>(list);
+		ArrayList<AppointmentModel> aList = new ArrayList<>(list);
 
 		// Find matching ID and remove appointment from ArrayList
 		for (int i = 0; i < aList.size(); i++) {
@@ -194,22 +188,22 @@ public class PersistenceAppointmentModel {
 		 * Takes given appointment, searches Id,
 		 * then replaces old appointment with same Id
 		 */
-		public void updateAppointment(Appointment appointment) throws IOException{
+		public void updateAppointment(AppointmentModel apMod) throws IOException{
 			// List of existing appointments is loaded into list
-			List<Appointment> list = loadAppointments();
+			List<AppointmentModel> list = load();
 			// List is converted to ArrayList for easier expansion
-			ArrayList<Appointment> aList = new ArrayList<Appointment>(list);
+			ArrayList<AppointmentModel> aList = new ArrayList<>(list);
 			
 			// Find matching ID and remove appointment from ArrayList
 			for (int i = 0; i < aList.size(); i++) {
-				if (aList.get(i).getId().equals(appointment.getId())) {
+				if (aList.get(i).getId().equals(apMod.getId())) {
 					aList.remove(i);
-					aList.add(i, appointment);
+					aList.add(i, apMod);
 				}
 			}
 			
 			// Convert ArrayList to JSON-Format
-			String newContent = convertAppointmentListToJSON(aList);
+			String newContent = convertAppointmentModelListToJSON(aList);
 			// Write JSON-String to "appointments.txt"-file
 			BufferedWriter writer = new BufferedWriter(new FileWriter(appointmentFile));
 			writer.write(newContent);
