@@ -32,9 +32,9 @@ public class Appointment {
 				+ this.description + ", " + this.place;
 	}
 
-	public AppointmentModel toAppointmentModel() {
-		return new AppointmentModel(id, title, start.toString(), end.toString(), this.category.toString());
-	}
+//	public AppointmentModel toAppointmentModel() {
+//		return new AppointmentModel(id, title, start.toString(), end.toString(), this.category.toString());
+//	}
 	
 	// ---------------- getter and setter section ---------------
 	
