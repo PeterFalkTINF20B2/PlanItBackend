@@ -4,43 +4,26 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import builder.AppointmentBuilder;
 import main.Appointment;
-import main.AppointmentModel;
 import main.Category;
 import main.FilePersistence;
 
 public class TestFilePersistence {
-	FilePersistence fp;
-	
-	@Before
-	public void createTestFile() throws IOException {
-		fp = new FilePersistence(System.getProperty("user.home") + File.separator + "Documents" + File.separator + "Appointments by PlanIt",
-				 File.separator + "appointmentModel_Test.json");
-//		generiert Test-Fälle
-		fp.addAppointment(new Appointment("12", "Friseur", Category.Other,LocalDate.parse("2022-03-14T14-00-00"), LocalDate.parse("2022-03-14T15-00-00"), "", ""));
-		fp.addAppointment(new Appointment("85", "Geburtstag", Category.Friends, LocalDate.parse("2022-03-31T06-00-00"), LocalDate.parse("2022-03-31T14-00-00"), "", ""));
-		fp.addAppointment(new Appointment("123", "Zahnarzt", Category.Doctor, LocalDate.parse("2022-03-01T12-00-00"), LocalDate.parse("2022-03-31T14-00-00"), "", ""));
-		fp.addAppointment(new Appointment("1020", "Abendessen", Category.Family, LocalDate.parse("2022-03-25T21-00-00"), LocalDate.parse("2022-03-26T01-00-00"), "", ""));
-		fp.addAppointment(new Appointment("45605", "Silvesterfeier", Category.Family, LocalDate.parse("2022-12-31T23-00-00"), LocalDate.parse("2023-01-01T01-00-00"), "", ""));
-		fp.addAppointment(new Appointment("9874", "Urlaub", Category.Sports, LocalDate.parse("2022-03-28T06-00-00"), LocalDate.parse("2022-04-15T23-59-59"), "", ""));
-	}
-	
-	@After
-	public void deleteTestFile() {
-		fp.deleteFile();
-	}
+	// TODO: Create directory and file with @BeforeClass and delete with @AfterClass
 	
 	@Test
 	public void testConvertAppointmentListToJSON() throws JsonProcessingException {
@@ -90,17 +73,7 @@ public class TestFilePersistence {
 
 	@Ignore("Not implemented yet")
 	@Test
-	public void testLoadAppointments() throws IOException {
-		List<AppointmentModel> list = new ArrayList<>();
-
-		fp.addAppointment(new Appointment("12", "Friseur", Category.Other,LocalDate.parse("2022-03-14T14-00-00"), LocalDate.parse("2022-03-14T15-00-00"), "", ""));
-		fp.addAppointment(new Appointment("85", "Geburtstag", Category.Friends, LocalDate.parse("2022-03-31T06-00-00"), LocalDate.parse("2022-03-31T14-00-00"), "", ""));
-		fp.addAppointment(new Appointment("123", "Zahnarzt", Category.Doctor, LocalDate.parse("2022-03-01T12-00-00"), LocalDate.parse("2022-03-31T14-00-00"), "", ""));
-		fp.addAppointment(new Appointment("1020", "Abendessen", Category.Family, LocalDate.parse("2022-03-25T21-00-00"), LocalDate.parse("2022-03-26T01-00-00"), "", ""));
-		fp.addAppointment(new Appointment("45605", "Silvesterfeier", Category.Family, LocalDate.parse("2022-12-31T23-00-00"), LocalDate.parse("2023-01-01T01-00-00"), "", ""));
-		fp.addAppointment(new Appointment("9874", "Urlaub", Category.Sports, LocalDate.parse("2022-03-28T06-00-00"), LocalDate.parse("2022-04-15T23-59-59"), "", ""));
-		
-		assertEquals(fp.load(), list);
+	public void testLoadAppointments() {
 	}
 
 	@Ignore("Not implemented yet")
