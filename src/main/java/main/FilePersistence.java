@@ -16,7 +16,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-public class FilePersistence implements Persistence {
+public class FilePersistence{
 	private String directoryPath;
 	private String appointmentFilePath;
 	private File appointmentFile;
@@ -106,7 +106,7 @@ public class FilePersistence implements Persistence {
 	 */
 	public void addAppointment(Appointment appntmnt) throws IOException {
 		// List of existing appointments is loaded into list
-		List<Appointment> list = loadAppointments();
+		List<Appointment> list = load();
 
 		// List is converted to ArrayList for easier expansion
 		ArrayList<Appointment> aList = new ArrayList<Appointment>(list);
@@ -124,7 +124,7 @@ public class FilePersistence implements Persistence {
 	/*
 	 * Appointments are loaded from "appointments.txt"-file and returned as a List
 	 */
-	public List<Appointment> loadAppointments() throws IOException {
+	public List<Appointment> load() throws IOException {
 		// Content of "appointments.txt" is written into String
 		String content = readAppointemntFile();
 
@@ -144,7 +144,7 @@ public class FilePersistence implements Persistence {
 		return appointmentList;
 	}
 
-	public List<Appointment> loadAppointmentsInTimespan(String start, String end) throws IOException {
+	public List<Appointment> loadInTimespan(String start, String end) throws IOException {
 		// Content of "appointments.txt" is written into String
 		String content = readAppointemntFile();
 
@@ -227,7 +227,7 @@ public class FilePersistence implements Persistence {
 	 */
 	public void deleteAppointment(String id) throws IOException {
 		// List of existing appointments is loaded into list
-		List<Appointment> list = loadAppointments();
+		List<Appointment> list = load();
 		// List is converted to ArrayList for easier expansion
 		ArrayList<Appointment> aList = new ArrayList<Appointment>(list);
 
@@ -252,7 +252,7 @@ public class FilePersistence implements Persistence {
 	 */
 	public void updateAppointment(Appointment appointment) throws IOException{
 		// List of existing appointments is loaded into list
-		List<Appointment> list = loadAppointments();
+		List<Appointment> list = load();
 		// List is converted to ArrayList for easier expansion
 		ArrayList<Appointment> aList = new ArrayList<Appointment>(list);
 		
