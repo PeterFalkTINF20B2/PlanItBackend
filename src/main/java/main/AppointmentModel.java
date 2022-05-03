@@ -6,7 +6,6 @@ import java.time.LocalTime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class AppointmentModel {
-	@JsonIgnore
 	private String id; // generated
 	private String title; // required
 	private String category; // required
