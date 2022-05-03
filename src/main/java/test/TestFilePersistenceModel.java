@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -62,15 +63,10 @@ public class TestFilePersistenceModel {
 	
 	@Test
 	public void testDelete() throws IOException {
-		List<AppointmentModel> list = new ArrayList<>();
+		List<AppointmentModel> loadedList = fp.load();
 		fp.deleteAppointmentModel("12");
-		fp.deleteAppointmentModel("85");
-		fp.deleteAppointmentModel("123");
-		fp.deleteAppointmentModel("1020");
-		fp.deleteAppointmentModel("45605");
-		fp.deleteAppointmentModel("9874");
-
-		List<AppointmentModel> loadedList = new ArrayList<>();
-		assertEquals(loadedList.isEmpty(), list.isEmpty());
+		loadedList = fp.load();
+		
+		assertEquals(5, loadedList.size());
 	}
 }
