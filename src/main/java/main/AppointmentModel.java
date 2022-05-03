@@ -1,5 +1,8 @@
 package main;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class AppointmentModel {
@@ -12,11 +15,11 @@ public class AppointmentModel {
 	private String enddate; // required
 	private String endtime; 
 	private Boolean flexible;
-//	private String description; // optional
+	private String description; // optional
 //	private String place; // optional
 	
 	
-	public AppointmentModel(String id, String title, String startdate, String starttime, String enddate, String endtime, String category) {
+	public AppointmentModel(String id, String title, String startdate, String starttime, String enddate, String endtime, String category, String description) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -26,12 +29,21 @@ public class AppointmentModel {
 		this.endtime = endtime;
 //		this.flexible = flexible;
 		this.category = category;
+		this.description = description;
 	}
 	
 	@Override
 	public String toString() {
 		return "Appointment: " + this.title + ", " + this.category + ", " + this.startdate + ", " + this.starttime + ", " + this.enddate + ", " + this.endtime;
 	}
+	
+	public Appointment toAppointment() {
+		return new Appointment(this.id, this.title, Category.valueOf(category), LocalDate.parse(startdate), LocalTime.parse(starttime), LocalDate.parse(enddate), LocalTime.parse(endtime), this.description, null);
+	}
+	
+	/*
+	 * getter setter
+	 */
 	
 	public String getCategory() {
 		return category;
