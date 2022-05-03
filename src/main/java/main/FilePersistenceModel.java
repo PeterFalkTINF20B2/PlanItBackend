@@ -98,12 +98,7 @@ public class FilePersistenceModel {
 		// New appointment is added to list
 		aList.add(apMod);
 
-		// ArrayList is converted to JSON and returned as String
-		String json = convertAppointmentModelListToJSON(aList);
-		// JSON-String is written into "appointments.txt"-file
-		BufferedWriter writer = new BufferedWriter(new FileWriter(appointmentFile));
-		writer.write(json);
-		writer.close();
+		writeListToFile(aList);
 	}
 
 	/*
@@ -179,7 +174,7 @@ public class FilePersistenceModel {
 		List<AppointmentModel> list = load();
 		// List is converted to ArrayList for easier expansion
 		ArrayList<AppointmentModel> aList = new ArrayList<>(list);
-		
+
 		// Find matching ID and remove appointment from ArrayList
 		for (int i = 0; i < aList.size(); i++) {
 			if (aList.get(i).getId().equals(id)) {
@@ -187,14 +182,7 @@ public class FilePersistenceModel {
 			}
 		}
 
-		System.out.println(aList.size());
-		
-		// Convert ArrayList to JSON-Format
-		String newContent = convertAppointmentModelListToJSON(aList);
-		// Write JSON-String to "appointments.txt"-file
-		BufferedWriter writer = new BufferedWriter(new FileWriter(appointmentFile));
-		writer.write(newContent);
-		writer.close();
+		writeListToFile(aList);
 	}
 
 	/*
@@ -214,7 +202,10 @@ public class FilePersistenceModel {
 				aList.add(i, apMod);
 			}
 		}
+		writeListToFile(aList);
+	}
 
+	public void writeListToFile(ArrayList<AppointmentModel> aList) throws IOException {
 		// Convert ArrayList to JSON-Format
 		String newContent = convertAppointmentModelListToJSON(aList);
 		// Write JSON-String to "appointments.txt"-file
