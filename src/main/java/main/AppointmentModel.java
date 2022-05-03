@@ -19,7 +19,7 @@ public class AppointmentModel {
 //	private String place; // optional
 	
 	
-	public AppointmentModel(String id, String title, String startdate, String starttime, String enddate, String endtime, String category, String description) {
+	public AppointmentModel(String id, String title, String category, String startdate, String starttime, String enddate, String endtime, String description) {
 		super();
 		this.id = id;
 		this.title = title;

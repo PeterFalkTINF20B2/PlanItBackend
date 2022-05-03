@@ -251,7 +251,12 @@ public class FilePersistenceModel {
 			e.printStackTrace();
 		}
 		for (AppointmentModel appointmentModel : listout) {
-			System.out.println(appointmentModel.toString());
+			try {
+				fp.deleteAppointmentModel(appointmentModel.getId());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }
