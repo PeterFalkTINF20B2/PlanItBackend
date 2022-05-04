@@ -1,4 +1,4 @@
-package test;
+
 
 import static org.junit.Assert.assertEquals;
 
@@ -21,7 +21,7 @@ public class TestFilePersistenceModel {
 	public void createTestFile() throws IOException {
 		fp = new FilePersistenceModel(System.getProperty("user.home") + File.separator + "Documents" + File.separator
 				+ "Appointments by PlanIt", File.separator + "appointmentModel_Test.json");
-//		generiert Test-Fälle
+//		generiert Test-Fï¿½lle
 		try {
 			fp.add(new AppointmentModel("12", "Friseur", "Other","2022-03-14", "14-00-00", "2022-03-14","15-00-00", ""));
 			fp.add(new AppointmentModel("85", "Geburtstag", "Family","2022-03-31","06-00-00", "2022-03-31","14-00-00", ""));
