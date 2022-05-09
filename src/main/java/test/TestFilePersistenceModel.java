@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,8 +13,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import main.Appointment;
 import main.AppointmentModel;
 import main.FilePersistenceModel;
+import main.Category;
 
 public class TestFilePersistenceModel {
 	FilePersistenceModel fp;
@@ -89,4 +93,11 @@ public class TestFilePersistenceModel {
 		assertEquals(5, loadedList.size());
 	}
 	
+	@Test
+	public void testToAppointment() {
+		AppointmentModel apm = new AppointmentModel("12", "Friseur", "Other","2022-03-14", "14-00-00", "2022-03-14","15-00-00", "");
+		Appointment ap = new Appointment("12", "Friseur", Category.valueOf("Other"), LocalDate.of(2022, 03, 14), LocalTime.of(14, 00, 00), LocalDate.of(2022, 03, 14), LocalTime.of(15, 00, 00), "", "");
+		
+		assertEquals(ap, apm.toAppointment());
+	}
 }
