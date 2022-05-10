@@ -152,7 +152,7 @@ public class FilePersistenceModel {
 					.filter(appointmentModel -> (startDate.isBefore(LocalDate.parse(appointmentModel.getStart()))))
 					.collect(Collectors.toList());
 			appointmentModelList = appointmentModelList.stream()
-					.filter(appointmentModel -> (endDate.isAfter(LocalDate.parse(appointmentModel.getEnd()))))
+					.filter(appointmentModel -> (endDate.isAfter(LocalDate.parse(appointmentModel.getStart()))))
 					.collect(Collectors.toList());
 			return appointmentModelList;
 		}
@@ -266,13 +266,12 @@ public class FilePersistenceModel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		for (AppointmentModel appointmentModel : listout) {
-			try {
-				fp.deleteAppointmentModel(appointmentModel.getId());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try {
+			System.out.println(fp.loadInTimespan("2022-03-13", "2022-03-26"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		fp.deleteFile();
 	}
 }
