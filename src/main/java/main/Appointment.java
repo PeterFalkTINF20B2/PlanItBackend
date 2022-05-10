@@ -12,7 +12,6 @@ public class Appointment {
 	private LocalDate endDate; // required
 	private LocalTime endTime; //required
 	private String description; // optional
-	private String place; // optional
 
 	public Appointment(String id, String title, Category category, LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime, String description,
 			String place) {
@@ -24,7 +23,6 @@ public class Appointment {
 		this.endDate = endDate;
 		this.endTime = endTime;
 		this.description = description;
-		this.place = place;
 	}
 
 	public Appointment() {
@@ -34,7 +32,7 @@ public class Appointment {
 	@Override
 	public String toString() {
 		return "Appointment: " + this.title + ", " + this.category + ", " + this.startDate + ", " + this.endDate + ", "
-				+ this.description + ", " + this.place;
+				+ this.description;
 	}
 
 	public AppointmentModel toAppointmentModel() {
@@ -65,9 +63,5 @@ public class Appointment {
 
 	public String getDescription() {
 		return description;
-	}
-
-	public String getPlace() {
-		return place;
 	}
 }
