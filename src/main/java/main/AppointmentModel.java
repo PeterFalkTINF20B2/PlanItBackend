@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+
 public class AppointmentModel {
 	private String id; // generated
 	private String title; // required

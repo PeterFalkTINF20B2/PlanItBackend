@@ -13,7 +13,8 @@ public class Appointment {
 	private LocalTime endTime; //required
 	private String description; // optional
 
-	public Appointment(String id, String title, Category category, LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime, String description) {
+	public Appointment(String id, String title, Category category, LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime, String description,
+			String place) {
 		this.id = id;
 		this.title = title;
 		this.category = category;
