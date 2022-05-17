@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -158,6 +159,63 @@ public class FilePersistenceModel {
 		}
 		return null;
 	}
+	
+	/*
+	 * similar to loadInTimespan, but loads a single Week around a specific date
+	 */
+	public List<AppointmentModel> loadWeek(String date) throws IOException {
+		// Content of "appointments.txt" is written into String
+		String content = readAppointemntFile();
+		
+		List<AppointmentModel> appointmentModelList = new ArrayList<AppointmentModel>();
+		if (appointmentFile.length() != 0) {
+			// Create ObjectMapper for demarshalling
+			ObjectMapper mapper = new ObjectMapper();
+			
+			try {
+				// Loaded JSON-String is converted to an ArrayList of Appointment objects
+				appointmentModelList = Arrays.asList(mapper.readValue(content, AppointmentModel[].class));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				
+			}
+//			until here, same as loadAppointments()
+//			filtered stream from list to list
+			LocalDate startDate = getMonday(LocalDate.parse(date));
+			LocalDate endDate = startDate.plusDays(7);
+			appointmentModelList = appointmentModelList.stream()
+					.filter(appointmentModel -> (startDate.isBefore(LocalDate.parse(appointmentModel.getStart()))))
+					.collect(Collectors.toList());
+			appointmentModelList = appointmentModelList.stream()
+					.filter(appointmentModel -> (endDate.isAfter(LocalDate.parse(appointmentModel.getStart()))))
+					.collect(Collectors.toList());
+			return appointmentModelList;
+		}
+		return null;
+	}
+	
+	private LocalDate getMonday(LocalDate day) {
+		switch (day.getDayOfWeek()) {
+		case MONDAY:
+			return day.minusDays(0);
+		case TUESDAY:
+			return day.minusDays(1);
+		case WEDNESDAY:
+			return day.minusDays(2);
+		case THURSDAY:
+			return day.minusDays(3);
+		case FRIDAY:
+			return day.minusDays(4);
+		case SATURDAY:
+			return day.minusDays(5);
+		case SUNDAY:
+			return day.minusDays(6);
+		default:
+//			throw Exception
+			return day;
+		}
+	}
 
 	/*
 	 * Read "appointments.txt"-file into String
@@ -244,34 +302,38 @@ public class FilePersistenceModel {
 	/*
 	 * Mainmethod for testing
 	 */
+//	public static void main(String[] args) {
+//		FilePersistenceModel fp = new FilePersistenceModel(System.getProperty("user.home") + File.separator
+//				+ "Documents" + File.separator + "Appointments by PlanIt",
+//				File.separator + "appointmentModel_Test.json");
+//		List<AppointmentModel> listout = new ArrayList<>();
+//		try {
+//			fp.add(new AppointmentModel("12", "Friseur", "Other", "2022-03-14", "14-00-00", "2022-03-14", "15-00-00",
+//					""));
+//			fp.add(new AppointmentModel("85", "Geburtstag", "Family", "2022-03-31", "06-00-00", "2022-03-31",
+//					"14-00-00", ""));
+//			fp.add(new AppointmentModel("123", "Zahnarzt", "Doctor", "2022-03-01", "12-00-00", "2022-03-31", "14-00-00",
+//					""));
+//			fp.add(new AppointmentModel("1020", "Abendessen", "Friends", "2022-03-25", "21-00-00", "2022-03-26",
+//					"01-00-00", ""));
+//			fp.add(new AppointmentModel("45605", "Silvesterfeier", "Family", "2022-12-31", "23-00-00", "2023-01-01",
+//					"01-00-00", ""));
+//			fp.add(new AppointmentModel("9874", "Urlaub", "Sports", "2022-03-28", "06-00-00", "2022-04-15", "23-59-59",
+//					""));
+//			listout = fp.load();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		try {
+//			System.out.println(fp.loadInTimespan("2022-03-13", "2022-03-26"));
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		fp.deleteFile();
+//	}
 	public static void main(String[] args) {
-		FilePersistenceModel fp = new FilePersistenceModel(System.getProperty("user.home") + File.separator
-				+ "Documents" + File.separator + "Appointments by PlanIt",
-				File.separator + "appointmentModel_Test.json");
-		List<AppointmentModel> listout = new ArrayList<>();
-		try {
-			fp.add(new AppointmentModel("12", "Friseur", "Other", "2022-03-14", "14-00-00", "2022-03-14", "15-00-00",
-					""));
-			fp.add(new AppointmentModel("85", "Geburtstag", "Family", "2022-03-31", "06-00-00", "2022-03-31",
-					"14-00-00", ""));
-			fp.add(new AppointmentModel("123", "Zahnarzt", "Doctor", "2022-03-01", "12-00-00", "2022-03-31", "14-00-00",
-					""));
-			fp.add(new AppointmentModel("1020", "Abendessen", "Friends", "2022-03-25", "21-00-00", "2022-03-26",
-					"01-00-00", ""));
-			fp.add(new AppointmentModel("45605", "Silvesterfeier", "Family", "2022-12-31", "23-00-00", "2023-01-01",
-					"01-00-00", ""));
-			fp.add(new AppointmentModel("9874", "Urlaub", "Sports", "2022-03-28", "06-00-00", "2022-04-15", "23-59-59",
-					""));
-			listout = fp.load();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
-			System.out.println(fp.loadInTimespan("2022-03-13", "2022-03-26"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		fp.deleteFile();
+		LocalDate day = LocalDate.of(2022, 5, 18);
+		System.out.println(day.getDayOfWeek());
 	}
 }
