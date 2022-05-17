@@ -147,8 +147,8 @@ public class FilePersistenceModel {
 			}
 //			until here, same as loadAppointments()
 //			filtered stream from list to list
-			LocalDate startDate = LocalDate.parse(start);
-			LocalDate endDate = LocalDate.parse(end);
+			LocalDate startDate = LocalDate.parse(start).minusDays(1);
+			LocalDate endDate = LocalDate.parse(end).plusDays(1);
 			appointmentModelList = appointmentModelList.stream()
 					.filter(appointmentModel -> (startDate.isBefore(LocalDate.parse(appointmentModel.getStart()))))
 					.collect(Collectors.toList());
@@ -182,8 +182,8 @@ public class FilePersistenceModel {
 			}
 //			until here, same as loadAppointments()
 //			filtered stream from list to list
-			LocalDate startDate = getMonday(LocalDate.parse(date));
-			LocalDate endDate = startDate.plusDays(7);
+			LocalDate startDate = getMonday(LocalDate.parse(date)).minusDays(1);
+			LocalDate endDate = startDate.plusDays(7).plusDays(1);
 			appointmentModelList = appointmentModelList.stream()
 					.filter(appointmentModel -> (startDate.isBefore(LocalDate.parse(appointmentModel.getStart()))))
 					.collect(Collectors.toList());
