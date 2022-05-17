@@ -101,7 +101,9 @@ public class TestFilePersistenceModel {
 	@Test
 	public void testDelete() throws IOException {
 		List<AppointmentModel> loadedList = fp.load();
-		fp.deleteAppointmentModel("12");
+		AppointmentModel apm = new AppointmentModel("12", "Friseur", "Other", "2022-03-14", "14-00-00", "2022-03-14", "15-00-00",
+				"");
+		fp.deleteAppointmentModel(apm.getId());
 		loadedList = fp.load();
 
 		assertEquals(5, loadedList.size());
