@@ -35,7 +35,7 @@ public class AppointmentModel {
 		this.description = description;
 	}
 	
-	private String generateID() {
+	public String generateID() {
 		return Long.toString(System.currentTimeMillis());
 	}
 
