@@ -20,7 +20,11 @@ public class AppointmentModel {
 	public AppointmentModel(String id, String title, String category, String startdate, String starttime,
 			String enddate, String endtime, String description) {
 		super();
-		this.id = id;
+		if (id == null || id == "") {
+			this.id = generateID();
+		} else {
+			this.id = id;
+		}
 		this.title = title;
 		this.startdate = startdate;
 		this.starttime = starttime;
@@ -29,6 +33,10 @@ public class AppointmentModel {
 //		this.flexible = flexible;
 		this.category = category;
 		this.description = description;
+	}
+	
+	public String generateID() {
+		return Long.toString(System.currentTimeMillis());
 	}
 
 	@Override
