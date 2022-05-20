@@ -24,11 +24,11 @@ public class Calendar {
     }
     
     public static List<String> getAktualWeek(String date){
-    	List<String> week = new ArrayList<>();
+    	List<String> week = new ArrayList<String>();
     	FilePersistenceModel fpm = new FilePersistenceModel("", "");
-    	LocalDate startDate = fpm.getMonday(LocalDate.parse(date)).minusDays(1);
+    	LocalDate startDate = fpm.getMonday(LocalDate.parse(date));
     	week.add(startDate.toString());
-		LocalDate endDate = startDate.plusDays(7).plusDays(1);
+		LocalDate endDate = startDate.plusDays(6);
 		week.add(endDate.toString());
     	return week;
     }
