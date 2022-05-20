@@ -107,7 +107,7 @@ public class FilePersistenceModel {
 	 */
 	public List<AppointmentModel> load() throws IOException {
 		// Content of "appointments.txt" is written into String
-		String content = readAppointemntFile();
+		String content = readAppointementFile();
 
 		List<AppointmentModel> appointmentList = new ArrayList<AppointmentModel>();
 		if (appointmentFile.length() != 0) {
@@ -130,7 +130,7 @@ public class FilePersistenceModel {
 	 */
 	public List<AppointmentModel> loadInTimespan(String start, String end) throws IOException {
 		// Content of "appointments.txt" is written into String
-		String content = readAppointemntFile();
+		String content = readAppointementFile();
 
 		List<AppointmentModel> appointmentModelList = new ArrayList<AppointmentModel>();
 		if (appointmentFile.length() != 0) {
@@ -165,7 +165,7 @@ public class FilePersistenceModel {
 	 */
 	public List<AppointmentModel> loadWeek(String date) throws IOException {
 		// Content of "appointments.txt" is written into String
-		String content = readAppointemntFile();
+		String content = readAppointementFile();
 		
 		List<AppointmentModel> appointmentModelList = new ArrayList<AppointmentModel>();
 		if (appointmentFile.length() != 0) {
@@ -220,7 +220,7 @@ public class FilePersistenceModel {
 	/*
 	 * Read "appointments.txt"-file into String
 	 */
-	private String readAppointemntFile() throws IOException {
+	private String readAppointementFile() throws IOException {
 		return Files.readString(Paths.get(appointmentFilePath));
 	}
 
