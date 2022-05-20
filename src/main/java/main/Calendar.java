@@ -1,6 +1,8 @@
 package main;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 //import java.util.Date;
 
 public class Calendar {
@@ -19,5 +21,15 @@ public class Calendar {
     	LocalDate oldDate = LocalDate.parse(dateString);
     	LocalDate newDate = oldDate.plusDays(7);
     	return newDate.toString();
+    }
+    
+    public static List<String> getAktualWeek(String date){
+    	List<String> week = new ArrayList<>();
+    	FilePersistenceModel fpm = new FilePersistenceModel("", "");
+    	LocalDate startDate = fpm.getMonday(LocalDate.parse(date)).minusDays(1);
+    	week.add(startDate.toString());
+		LocalDate endDate = startDate.plusDays(7).plusDays(1);
+		week.add(endDate.toString());
+    	return week;
     }
 }

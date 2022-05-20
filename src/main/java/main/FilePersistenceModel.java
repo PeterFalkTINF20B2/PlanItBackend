@@ -195,7 +195,7 @@ public class FilePersistenceModel {
 		return null;
 	}
 	
-	private LocalDate getMonday(LocalDate day) {
+	public LocalDate getMonday(LocalDate day) {
 		switch (day.getDayOfWeek()) {
 		case MONDAY:
 			return day.minusDays(0);
