@@ -65,18 +65,9 @@ public class AppointmentModel {
 			}else if(this.startdate.equals(this.enddate) && endtime.isBefore(starttime)) {
 				return false;
 			}
-			switch (this.category) {
-			case "Family":
-				break;
-			case "Friends":
-				break;
-			case "Doctor":
-				break;
-			case "Sports":
-				break;
-			case "Other":
-				break;
-			default:
+			try{
+				Category.valueOf(this.category);
+			}catch (IllegalArgumentException e) {
 				return false;
 			}
 			return true;
