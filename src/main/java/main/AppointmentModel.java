@@ -65,6 +65,20 @@ public class AppointmentModel {
 			}else if(this.startdate.equals(this.enddate) && endtime.isBefore(starttime)) {
 				return false;
 			}
+			switch (this.category) {
+			case "Family":
+				break;
+			case "Friends":
+				break;
+			case "Doctor":
+				break;
+			case "Sports":
+				break;
+			case "Other":
+				break;
+			default:
+				return false;
+			}
 			return true;
 		}
 	}
