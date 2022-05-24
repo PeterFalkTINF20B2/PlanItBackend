@@ -51,6 +51,28 @@ public class AppointmentModel {
 				LocalTime.parse(starttime, formatter), LocalDate.parse(enddate), LocalTime.parse(endtime, formatter),
 				this.description, null);
 	}
+	
+	public Boolean checkCorrectness() {
+		if (this.title.equals("") || this.startdate.equals("") || this.starttime.equals(":00") || this.enddate.equals("") || this.category.equals("change")) {
+			return false;
+		} else {
+			LocalDate start = LocalDate.parse(this.startdate);
+			LocalDate end = LocalDate.parse(this.enddate);
+			LocalTime starttime = LocalTime.parse(this.starttime);
+			LocalTime endtime = LocalTime.parse(this.endtime);
+			if (end.isBefore(start)) {
+				return false;
+			}else if(this.startdate.equals(this.enddate) && endtime.isBefore(starttime)) {
+				return false;
+			}
+			try{
+				Category.valueOf(this.category);
+			}catch (IllegalArgumentException e) {
+				return false;
+			}
+			return true;
+		}
+	}
 
 	/*
 	 * getter setter
