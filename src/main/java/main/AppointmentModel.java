@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-
 public class AppointmentModel {
 	private String id; // generated
 	private String title; // required
@@ -15,12 +14,11 @@ public class AppointmentModel {
 	private String endtime;
 	private Boolean flexible;
 	private String description; // optional
-//	private String place; // optional
 
 	public AppointmentModel(String id, String title, String category, String startdate, String starttime,
 			String enddate, String endtime, String description) {
 		super();
-		if (id == null || id == "") {
+		if (id.equals(null) || id.equals("")) {
 			this.id = generateID();
 		} else {
 			this.id = id;
@@ -34,7 +32,7 @@ public class AppointmentModel {
 		this.category = category;
 		this.description = description;
 	}
-	
+
 	public String generateID() {
 		return Long.toString(System.currentTimeMillis());
 	}
@@ -51,9 +49,10 @@ public class AppointmentModel {
 				LocalTime.parse(starttime, formatter), LocalDate.parse(enddate), LocalTime.parse(endtime, formatter),
 				this.description, null);
 	}
-	
+
 	public Boolean checkCorrectness() {
-		if (this.title.equals("") || this.startdate.equals("") || this.starttime.equals(":00") || this.enddate.equals("") || this.category.equals("change")) {
+		if (this.title.equals("") || this.startdate.equals("") || this.starttime.equals(":00")
+				|| this.enddate.equals("") || this.category.equals("change")) {
 			return false;
 		} else {
 			LocalDate start = LocalDate.parse(this.startdate);
@@ -62,12 +61,12 @@ public class AppointmentModel {
 			LocalTime endtime = LocalTime.parse(this.endtime);
 			if (end.isBefore(start)) {
 				return false;
-			}else if(this.startdate.equals(this.enddate) && endtime.isBefore(starttime)) {
+			} else if (this.startdate.equals(this.enddate) && endtime.isBefore(starttime)) {
 				return false;
 			}
-			try{
+			try {
 				Category.valueOf(this.category);
-			}catch (IllegalArgumentException e) {
+			} catch (IllegalArgumentException e) {
 				return false;
 			}
 			return true;
@@ -146,12 +145,6 @@ public class AppointmentModel {
 		this.title = title;
 	}
 
-	// public Category getCategory() {
-	// return category;
-	// }
-	// public void setCategory(Category category) {
-	// this.category = category;
-	// }
 	public String getStart() {
 		return startdate;
 	}
@@ -167,16 +160,4 @@ public class AppointmentModel {
 	public void setEnd(String end) {
 		this.enddate = end;
 	}
-//	public String getDescription() {
-//		return description;
-//	}
-//	public void setDescription(String description) {
-//		this.description = description;
-//	}
-//	public String getPlace() {
-//		return place;
-//	}
-//	public void setPlace(String place) {
-//		this.place = place;
-//	}
 }
