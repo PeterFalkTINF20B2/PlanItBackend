@@ -18,7 +18,7 @@ public class AppointmentModel {
 	public AppointmentModel(String id, String title, String category, String startdate, String starttime,
 			String enddate, String endtime, String description) {
 		super();
-		if (id.equals(null) || id.equals("")) {
+		if (id == null || id.equals("")) {
 			this.id = generateID();
 		} else {
 			this.id = id;
